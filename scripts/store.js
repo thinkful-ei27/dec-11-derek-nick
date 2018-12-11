@@ -4,6 +4,7 @@
 const store= (function(){
   const videos = [];
   const pageTokens = {};
+  const searchTerm = '';
 
   function setVideos(videos) {
     this.videos = videos;
@@ -13,10 +14,16 @@ const store= (function(){
     this.pageTokens = pageTokens;
   }
 
+  function setSearchTerm(searchTerm) {
+    this.searchTerm = searchTerm;
+  }
+
   return {
     videos,
     pageTokens,
+    searchTerm,
     setVideos,
-    setPageTokens
+    setPageTokens,
+    setSearchTerm
   };
 }());

@@ -27,6 +27,7 @@ const videoList = (function(){
         const decoratedVideos = apiYt.decorateResponse(response);
         const pageTokens = apiYt.getPageTokens(response);
         store.setPageTokens(pageTokens);
+        store.setSearchTerm(searchTerm);
         store.setVideos(decoratedVideos);
         videoList.render();
       });
@@ -36,7 +37,12 @@ const videoList = (function(){
 
   function handleMoreResultsButton() {
     $('body').on('click', '#more-results', function(){
-
+      $.getJSON(`https://www.googleapis.com/youtube/v3/search/?part=snippet&key=AIzaSyDnc7Zms70Zf99U8didJx_lK3Q7-rEsxlI&pageToken=${store.pageTokens.nextPageToken}&q=${store.searchTerm}`, function(response) {
+        const decoratedVideos = apiYt.decorateResponse(response);
+        store.setVideos(decoratedVideos);
+        videoList.render();
+        console.log(response);
+      });
     });
   }
 
