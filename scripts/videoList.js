@@ -13,7 +13,9 @@ const videoList = (function(){
 
   function render() {
     const videoElements = store.videos.map(video => this.generateListItem(video));
+    const moreButton = '<button id="more-results">MORE RESULTS</button>';
     $('.results').html(videoElements);
+    $('body').append(moreButton);
   }
 
   function handleFormSubmit() {
@@ -23,6 +25,7 @@ const videoList = (function(){
       $('#search-term').val('');
       apiYt.fetchVideos(searchTerm, function(response){
         const decoratedVideos = apiYt.decorateResponse(response);
+        apiYt.getPageTokens(response);
         store.setVideos(decoratedVideos);
         videoList.render();
       });
@@ -30,14 +33,20 @@ const videoList = (function(){
     });
   }
 
+  function handleMoreResultsButton() {
+    $('body').on('click', '#more-results', function(){
+
+    });
+  }
+
   function bindEventListeners() {
     handleFormSubmit();
+    handleMoreResultsButton();
   }
 
   return {
     generateListItem,
     render,
-    handleFormSubmit,
     bindEventListeners
   };
 }());

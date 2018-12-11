@@ -26,12 +26,25 @@ const apiYt = (function(){
         type: 'video'
       };
     });
-    console.log(mappedResponse);
     return mappedResponse;
+  }
+
+  function getPageTokens(response){
+    if(response.nextPageToken){
+      console.log(`${response.nextPageToken} exists!`);
+    } else {
+      console.log('NextPageToken does not exist');
+    }
+    if(response.prevPageToken){
+      console.log(`${response.prevPagetoken} exists!`);
+    } else {
+      console.log('PrevPageToken does not exist');
+    }
   }
 
   return {
     fetchVideos,
-    decorateResponse
+    decorateResponse,
+    getPageTokens
   }
 }());
