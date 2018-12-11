@@ -37,8 +37,12 @@ const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
 //
 // TEST IT! Execute this function and console log the results inside the callback.
 const fetchVideos = function(searchTerm, callback) {
-  const testUrl = `${BASE_URL}/?part=snippet&key=${API_KEY}&q=${searchTerm}&type=video`;
-  $.getJSON(testUrl, callback);
+  let query = {
+    part: 'snippet',
+    q: searchTerm,
+    key: API_KEY
+  };
+  $.getJSON(BASE_URL, query, callback);
 };
 
 /**
@@ -67,8 +71,6 @@ const decorateResponse = function(response) {
   return mappedResponse;
 };
 
-const dogVideos = fetchVideos('Dogs', decorateResponse);
-
 /**
  * @function generateVideoItemHtml
  * Template function, creates an HTML string from a single decorated video object
@@ -79,7 +81,10 @@ const dogVideos = fetchVideos('Dogs', decorateResponse);
 // 1. Using the decorated object, return an HTML string containing all the expected
 // TEST IT!
 const generateVideoItemHtml = function(video) {
-  return `<li id="${video.id}"><img src="${video.thumbnail}" alt="${video.title}"><p>${video.title}</p></li>`;
+  return `<li data-video-id="${video.id}">
+  <img src="${video.thumbnail}" alt="${video.title}">
+  <h3>${video.title}</h3>
+  </li>`;
 };
 
 /**
@@ -125,11 +130,23 @@ const render = function() {
 //   g) Inside the callback, run the `render` function 
 // TEST IT!
 const handleFormSubmit = function() {
-
+  $('form').on('submit', function(){
+    event.preventDefault();
+    const searchTerm = $('#search-term').val();
+    $('#search-term').val('');
+    fetchVideos(searchTerm, function(response){
+      const decoratedVideos = decorateResponse(response);
+      addVideosToStore(decoratedVideos);
+      render();
+    });
+    
+  });
 };
+
 
 // When DOM is ready:
 $(function () {
   // TASK:
   // 1. Run `handleFormSubmit` to bind the event listener to the DOM
+  handleFormSubmit();
 });
