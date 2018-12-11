@@ -26,6 +26,7 @@ const videoList = (function(){
       apiYt.fetchVideos(searchTerm, function(response){
         const decoratedVideos = apiYt.decorateResponse(response);
         const pageTokens = apiYt.getPageTokens(response);
+        store.setPageTokens(pageTokens);
         store.setVideos(decoratedVideos);
         videoList.render();
       });
