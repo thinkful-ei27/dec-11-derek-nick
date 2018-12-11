@@ -30,16 +30,14 @@ const apiYt = (function(){
   }
 
   function getPageTokens(response){
+    const pageTokens = {nextPageToken: undefined, prevPageToken: undefined};
     if(response.nextPageToken){
-      console.log(`${response.nextPageToken} exists!`);
-    } else {
-      console.log('NextPageToken does not exist');
+      pageTokens.nextPageToken = response.nextPageToken;      
     }
     if(response.prevPageToken){
-      console.log(`${response.prevPagetoken} exists!`);
-    } else {
-      console.log('PrevPageToken does not exist');
+      pageTokens.prevPageToken = response.prevPageToken;
     }
+    return pageTokens;
   }
 
   return {

@@ -25,7 +25,7 @@ const videoList = (function(){
       $('#search-term').val('');
       apiYt.fetchVideos(searchTerm, function(response){
         const decoratedVideos = apiYt.decorateResponse(response);
-        apiYt.getPageTokens(response);
+        const pageTokens = apiYt.getPageTokens(response);
         store.setVideos(decoratedVideos);
         videoList.render();
       });
