@@ -16,6 +16,7 @@ const apiYt = (function(){
   }
 
   function decorateResponse(response) {
+    console.log(response);
     let mappedResponse = response.items.map(item => {
       return {
         id: item.id.videoId,
