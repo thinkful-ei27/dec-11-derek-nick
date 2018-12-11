@@ -37,11 +37,10 @@ const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
 //
 // TEST IT! Execute this function and console log the results inside the callback.
 const fetchVideos = function(searchTerm, callback) {
-  const testUrl = `${BASE_URL}/?part=snippet&key=${API_KEY}&q=${searchTerm}`;
-  $.getJSON(testUrl, function(results){console.log(results);});
+  const testUrl = `${BASE_URL}/?part=snippet&key=${API_KEY}&q=${searchTerm}&type=video`;
+  $.getJSON(testUrl, callback);
 };
 
-fetchVideos("Dogs");
 /**
  * @function decorateResponse
  * Uses Youtube API response to create an array of "decorated" video objects as 
@@ -58,8 +57,17 @@ fetchVideos("Dogs");
 // TEST IT! Grab an example API response and send it into the function - make sure
 // you get back the object you want.
 const decorateResponse = function(response) {
-
+  let mappedResponse = response.items.map(item => {
+    return {
+      id: item.id.videoId,
+      thumbnail: item.snippet.thumbnails.default.url,
+      title: item.snippet.title
+    };
+  });
+  return mappedResponse;
 };
+
+const dogVideos = fetchVideos('Dogs', decorateResponse);
 
 /**
  * @function generateVideoItemHtml
@@ -71,7 +79,7 @@ const decorateResponse = function(response) {
 // 1. Using the decorated object, return an HTML string containing all the expected
 // TEST IT!
 const generateVideoItemHtml = function(video) {
-
+  return `<li id="${video.id}"><img src="${video.thumbnail}" alt="${video.title}"><p>${video.title}</p></li>`;
 };
 
 /**
@@ -83,7 +91,7 @@ const generateVideoItemHtml = function(video) {
 // 1. Set the received array as the value held in store.videos
 // TEST IT!
 const addVideosToStore = function(videos) {
-
+  store.videos = videos;
 };
 
 
@@ -96,7 +104,8 @@ const addVideosToStore = function(videos) {
 // 2. Add this array of DOM elements to the appropriate DOM element
 // TEST IT!
 const render = function() {
-
+  const videoElements = store.videos.map(video => generateVideoItemHtml(video));
+  $('.results').html(videoElements);
 };
 
 /**
