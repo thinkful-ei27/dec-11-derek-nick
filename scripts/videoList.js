@@ -5,7 +5,7 @@
 const videoList = (function(){
   function generateListItem(video) {
     return `<li data-video-id="${video.id}">
-    <a href="https://www.youtube.com/watch?v=${video.id}" data-lightbox="${video.id}" data-title="${video.title}"><img src="${video.thumbnail}" alt="${video.title}"></a>
+    <a href="https://www.youtube.com/watch?v=${video.id}" data-lity><img src="${video.thumbnail}" alt="${video.title}"></a>
     <h3>${video.title}</h3>
     </li>`;
   }
