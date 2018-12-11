@@ -1,5 +1,7 @@
 'use strict';
 
+/* global $ */
+
 const apiYt = (function(){
   const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
   const API_KEY = 'AIzaSyDnc7Zms70Zf99U8didJx_lK3Q7-rEsxlI';
@@ -18,9 +20,12 @@ const apiYt = (function(){
       return {
         id: item.id.videoId,
         thumbnail: item.snippet.thumbnails.default.url,
-        title: item.snippet.title
+        title: item.snippet.title,
+        channelId: item.snippet.channelId,
+        type: 'video'
       };
     });
+    console.log(mappedResponse);
     return mappedResponse;
   }
 

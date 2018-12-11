@@ -7,6 +7,7 @@ const videoList = (function(){
     return `<li data-video-id="${video.id}">
     <a href="https://www.youtube.com/watch?v=${video.id}" data-lity><img src="${video.thumbnail}" alt="${video.title}"></a>
     <h3>${video.title}</h3>
+    <p><a href="https://www.youtube.com/channel/${video.channelId}">More from this channel</a></p>
     </li>`;
   }
 
